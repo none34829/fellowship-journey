@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Fellowship Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --warm-cream: #faf8f5;
+            --soft-brown: #3d3530;
+            --accent-terracotta: #c4846c;
+            --muted-sage: #9caa98;
+            --timeline-line: #e8e4df;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--warm-cream);
+            color: var(--soft-brown);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 80px 24px 120px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .eyebrow {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-terracotta);
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--accent-terracotta);
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            color: #6b6560;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            --timeline-offset: 32px;
+            --timeline-line-x: 6px;
+            --timeline-line-width: 2px;
+            --timeline-dot-size: 14px;
+            --timeline-dot-border: 3px;
+            position: relative;
+            padding-left: var(--timeline-offset);
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: var(--timeline-line-x);
+            top: 8px;
+            bottom: 8px;
+            width: var(--timeline-line-width);
+            background: linear-gradient(to bottom, var(--accent-terracotta), var(--muted-sage), var(--timeline-line));
+            border-radius: 2px;
+        }
+
+        .milestone {
+            position: relative;
+            margin-bottom: 56px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+        .milestone:nth-child(1) { animation-delay: 0.2s; }
+        .milestone:nth-child(2) { animation-delay: 0.4s; }
+        .milestone:nth-child(3) { animation-delay: 0.6s; }
+        .milestone:nth-child(4) { animation-delay: 0.8s; }
+        .milestone:nth-child(5) { animation-delay: 1s; }
+        .milestone:nth-child(6) { animation-delay: 1.2s; }
+
+        .milestone::before {
+            content: '';
+            position: absolute;
+            left: calc(
+                var(--timeline-line-x)
+                - var(--timeline-offset)
+                + (var(--timeline-line-width) * 0.5)
+                - (var(--timeline-dot-size) * 0.5)
+                - var(--timeline-dot-border)
+            );
+            top: 8px;
+            width: var(--timeline-dot-size);
+            height: var(--timeline-dot-size);
+            background: var(--warm-cream);
+            border: var(--timeline-dot-border) solid var(--accent-terracotta);
+            border-radius: 50%;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .milestone:hover::before {
+            transform: scale(1.2);
+            background: var(--accent-terracotta);
+        }
+
+        .date {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted-sage);
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .milestone h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .milestone:hover h2 {
+            color: var(--accent-terracotta);
+        }
+
+        .milestone p {
+            color: #5c5550;
+            font-size: 0.95rem;
+        }
+
+        .highlight {
+            background: linear-gradient(to right, rgba(196, 132, 108, 0.15), transparent);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 4px;
+        }
+
+        .gratitude {
+            margin-top: 80px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(156, 170, 152, 0.1), rgba(196, 132, 108, 0.08));
+            border-radius: 16px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 1.2s forwards;
+        }
+
+        .gratitude h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .gratitude p {
+            color: #5c5550;
+            font-size: 0.95rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--timeline-line);
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 1.4s forwards;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #9a9590;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 60px 20px 80px;
+            }
+
+            .timeline {
+                --timeline-offset: 28px;
+            }
+
+            .gratitude {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <p class="eyebrow">Fellowship Update</p>
+            <h1>What a <em>Year</em></h1>
+            <p class="intro">Here's what I've been up to, and what the fellowship has unlocked for me.</p>
+        </header>
+
+        <div class="timeline">
+            <div class="milestone">
+                <p class="date">January 13</p>
+                <h2><span class="emoji">✨</span> The Email</h2>
+                <p>Got my acceptance email. I was over the moon, honestly. It was the kind of doors this could open that made me even more excited. The networking, the people I'd get to meet, the opportunities. I couldn't stop smiling.</p>
+            </div>
+
+            <div class="milestone">
+                <p class="date">May</p>
+                <h2><span class="emoji">💻</span> New Laptop!</h2>
+                <p>Bought myself an <span class="highlight">Acer with an NVIDIA GeForce RTX 4050</span> (huge Windows fan, haha). Before this, I was on an AMD Radeon that would take forever to load even a simple React page. And as projects got more complex with heavier frontend, backend and everything? Even worse. This new machine has probably saved me hours of just sitting there waiting. I’ve even pushed it close to its max, using the GPU to train my own ML models for research (and before we pivoted to a new idea).</p>
+            </div>
+
+            <div class="milestone">
+                <p class="date">Throughout the Year</p>
+                <h2><span class="emoji">🚀</span> Shipping Stuff</h2>
+                <p>Made a bunch of apps- from real time voice-ai agent console in typescript to a high-performance trade simulator using real-time market data to estimate transaction costs and market impact for cryptocurrency exchanges in C++. But the one I'm most proud of is <span class="highlight">superflash.app</span>. I teamed up with an educator in the SAT prep space and built a vocab tool for his students. It's something I really wished I had back when I was prepping for the SAT myself. Also interned at places like Orchids and Freya (both YC companies) and developed features that scaled to thousands of users.</p>
+            </div>
+
+            <div class="milestone">
+                <p class="date">Learning Arc</p>
+                <h2><span class="emoji">🦀</span> Rust, Tauri, and More</h2>
+                <p>Learned Rust and Tauri to build my first desktop app ever. Right now I'm working on something fun- basically <span class="highlight">chess.com but for competitive programming</span>. Real-time matches, head-to-head. Think LeetCode meets chess.com. I knew what was possible with tech, but ever since I bought this laptop, I've been able to explore things I wouldn't have with my old one. I don't think any of this would've happened without the support.</p>
+            </div>
+
+            <div class="milestone">
+                <p class="date">Startup</p>
+                <h2><span class="emoji">&#128640;</span> Startup Pivot</h2>
+                <p>Pivoted from edtech to regulating the chemical industry with my best friend from Caltech (a CS major) and his friend (a chemistry major). Talked to close to 10 people so far (more in the upcoming days) and now working on building legacy software in the retrosynthesis and broader chemical industry.</p>
+            </div>
+
+            <div class="milestone">
+                <p class="date">Research</p>
+                <h2><span class="emoji">🔬</span> Actually Running Experiments</h2>
+                <p>Before the fellowship, I was doing research but had to really limit how many experiments I could run. With the funding, I could finally do things properly. The quality of my work went up a lot because I wasn't constantly cutting corners. Currently working on 2 more researches with Cadenza Labs and Oxford on AI/LLM Evaluation and Multi-Agent Systems respectively (more updates soon! :).</p>
+            </div>
+        </div>
+
+        <div class="gratitude">
+            <h3>It's the People</h3>
+            <p>You all have helped me in so many ways. Pranav connecting me to his CTO when I wanted to do market research. Nikunj opening up his network when I was looking at internships. Akshay connecting me to his team at Notion when I needed to do some more market research :P. You've helped me in uncountable ways, and I'm grateful for every bit of it. More than anything, I learned what it means to give back. The humility, the generosity- it's something I want to pay forward some day. I really don't think what I did this year would've been possible without all of you cheering me on. I can’t fully put into words what this meant to me, and this is only the beginning. Thank you so much, Pranav, Akshay, and Nikunj, from the bottom of my heart!</p>
+        </div>
+
+        <footer>
+            <p>Made with gratitude • 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
